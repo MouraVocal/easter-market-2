@@ -1,13 +1,13 @@
+import { Button, ProductCard as Card } from "@/styles/components";
 import {
-  Button,
-  ProductCard as Card,
+  PriceContainer,
   ProductDescription,
   ProductImage,
   ProductPrice,
   ProductTitle,
-} from "@/styles/components";
-import { PriceContainer } from "./styles";
+} from "./styles";
 import { ProductCardProps } from "./types";
+import { translations } from "@/constants/translations";
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   return (
@@ -16,8 +16,8 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
       <ProductTitle>{product.name}</ProductTitle>
       <ProductDescription>{product.description}</ProductDescription>
       <PriceContainer>
-        <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
-        <Button onClick={() => onAddToCart(product)}>Add to Cart</Button>
+        <ProductPrice>{translations.common.price}{product.price.toFixed(2)}</ProductPrice>
+        <Button onClick={() => onAddToCart(product)}>{translations.common.addToCart}</Button>
       </PriceContainer>
     </Card>
   );

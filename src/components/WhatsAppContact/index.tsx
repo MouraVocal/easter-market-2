@@ -1,18 +1,24 @@
-import { WhatsAppBalloon, WhatsAppButton } from "@/styles/components";
-import { BalloonContent, BalloonIcon, BalloonText, CloseButton } from "./styles";
+import { WhatsAppButton, WhatsAppBalloon } from "@/styles/components";
+import { FaWhatsapp } from "react-icons/fa";
+import { translations } from "@/constants/translations";
+import { BalloonContent, BalloonText, BalloonIcon, CloseButton } from "./styles";
 
 interface WhatsAppContactProps {
   whatsappNumber: number;
   showBalloon: boolean;
   onBalloonClose: () => void;
-  onWhatsAppClick: () => void;
 }
 
 export function WhatsAppContact({
+  whatsappNumber,
   showBalloon,
   onBalloonClose,
-  onWhatsAppClick,
 }: WhatsAppContactProps) {
+  const handleWhatsAppClick = () => {
+    const message = encodeURIComponent(translations.whatsapp.message);
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
+  };
+
   return (
     <>
       {showBalloon && (
@@ -20,13 +26,16 @@ export function WhatsAppContact({
           <BalloonContent>
             <BalloonText>
               <BalloonIcon>👋</BalloonIcon>
-              Não achou o que queria? Fale comigo no whatsapp!
+              {translations.whatsapp.balloon}
             </BalloonText>
             <CloseButton onClick={onBalloonClose}>×</CloseButton>
           </BalloonContent>
         </WhatsAppBalloon>
       )}
-      <WhatsAppButton onClick={onWhatsAppClick}>💬 WhatsApp</WhatsAppButton>
+      <WhatsAppButton onClick={handleWhatsAppClick}>
+        <FaWhatsapp size={24} />
+        {translations.whatsapp.button}
+      </WhatsAppButton>
     </>
   );
 }

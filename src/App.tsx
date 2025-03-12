@@ -15,6 +15,8 @@ import { Product, SiteSettings } from "./types/supabase";
 import { Header } from "./components/Header";
 import { ProductList } from "./components/ProductList";
 import { WhatsAppContact } from "./components/WhatsAppContact";
+import { Tabs } from "./components/Tabs";
+import { Carousel } from "./components/Carousel";
 
 function App() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -47,12 +49,6 @@ function App() {
     setCartItems([...cartItems, product]);
   };
 
-  const handleWhatsAppClick = () => {
-    if (siteSettings?.whatsapp_number) {
-      window.open(`https://wa.me/${siteSettings.whatsapp_number}`, "_blank");
-    }
-  };
-
   return (
     <AppContainer>
       <Header
@@ -64,16 +60,28 @@ function App() {
         <PageTitle>{siteSettings?.title}</PageTitle>
         <PageSubtitle>{siteSettings?.subtitle}</PageSubtitle>
 
-        <ProductList
-          title="Featured Products"
-          products={highlightedProducts}
-          onAddToCart={addToCart}
-        />
-
-        <ProductList
-          title="All Products"
-          products={products}
-          onAddToCart={addToCart}
+        <Tabs
+          tabs={[
+            {
+              label: "Produtos em Destaque",
+              content: (
+                <Carousel
+                  products={highlightedProducts}
+                  onAddToCart={addToCart}
+                />
+              ),
+            },
+            {
+              label: "Todos os Produtos",
+              content: (
+                <ProductList
+                  title="Catálogo Completo"
+                  products={products}
+                  onAddToCart={addToCart}
+                />
+              ),
+            },
+          ]}
         />
       </Container>
 
@@ -81,7 +89,6 @@ function App() {
         whatsappNumber={siteSettings?.whatsapp_number || 0}
         showBalloon={showWhatsAppBalloon}
         onBalloonClose={() => setShowWhatsAppBalloon(false)}
-        onWhatsAppClick={handleWhatsAppClick}
       />
     </AppContainer>
   );

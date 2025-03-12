@@ -69,6 +69,7 @@ export const WhatsAppBalloon = styled.div`
   border-radius: ${theme.radii.md};
   box-shadow: ${theme.shadows.lg};
   max-width: 250px;
+  z-index: 1000;
   
   &::after {
     content: '';
@@ -114,33 +115,6 @@ export const PageSubtitle = styled.h2`
   text-align: center;
   font-weight: normal;
 `;
-
-export const ProductImage = styled.img`
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: ${theme.radii.md};
-  margin-bottom: ${theme.space.md};
-`;
-
-export const ProductTitle = styled.h3`
-  color: ${theme.colors.text};
-  font-size: ${theme.fontSizes.xl};
-  margin-bottom: ${theme.space.sm};
-`;
-
-export const ProductPrice = styled.span`
-  color: ${theme.colors.primary};
-  font-size: ${theme.fontSizes.lg};
-  font-weight: bold;
-`;
-
-export const ProductDescription = styled.p`
-  color: ${theme.colors.gray[600]};
-  font-size: ${theme.fontSizes.md};
-  margin: ${theme.space.sm} 0;
-`;
-
 
 export const AppContainer = styled.div`
   background: #F0F9FF;
