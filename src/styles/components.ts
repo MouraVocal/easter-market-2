@@ -2,12 +2,11 @@ import styled from 'styled-components';
 import { theme } from './theme';
 
 export const Container = styled.div`
-  width: 100vw;
-  max-width: 100vw;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   padding: ${theme.space.md};
   box-sizing: border-box;
-  overflow-x: hidden;
 `;
 
 export const ProductGrid = styled.div`
@@ -140,4 +139,10 @@ export const ProductDescription = styled.p`
   color: ${theme.colors.gray[600]};
   font-size: ${theme.fontSizes.md};
   margin: ${theme.space.sm} 0;
+`;
+
+
+export const AppContainer = styled.div`
+  background: #F0F9FF;
+  min-height: 100vh;
 `;

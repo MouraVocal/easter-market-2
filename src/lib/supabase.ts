@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { Product, SiteSettings } from '../types/supabase';
+import { Product, SiteSettings } from '@/types/supabase';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;

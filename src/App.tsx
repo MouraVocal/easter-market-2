@@ -1,4 +1,4 @@
-import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import "./App.css";
 import { useEffect, useState } from "react";
 import {
   getHighlightedProducts,
@@ -6,22 +6,15 @@ import {
   getSiteSettings,
 } from "./lib/supabase";
 import {
-  Button,
-  CartButton,
-  CartCount,
+  AppContainer,
   Container,
   PageSubtitle,
   PageTitle,
-  ProductCard,
-  ProductDescription,
-  ProductGrid,
-  ProductImage,
-  ProductPrice,
-  ProductTitle,
-  WhatsAppBalloon,
-  WhatsAppButton,
 } from "./styles/components";
 import { Product, SiteSettings } from "./types/supabase";
+import { Header } from "./components/Header";
+import { ProductList } from "./components/ProductList";
+import { WhatsAppContact } from "./components/WhatsAppContact";
 
 function App() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -61,131 +54,36 @@ function App() {
   };
 
   return (
-    <div style={{ background: "#F0F9FF", minHeight: "100vh" }}>
-      <NavigationMenu.Root>
-        <Container>
-          <NavigationMenu.List
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "1rem 0",
-            }}
-          >
-            <NavigationMenu.Item>
-              <h1 style={{ color: "#2A4365" }}>
-                {siteSettings?.title || "Easter Market"}
-              </h1>
-            </NavigationMenu.Item>
-            <NavigationMenu.Item>
-              <CartButton>
-                🛒 Cart
-                {cartItems.length > 0 && (
-                  <CartCount>{cartItems.length}</CartCount>
-                )}
-              </CartButton>
-            </NavigationMenu.Item>
-          </NavigationMenu.List>
-        </Container>
-      </NavigationMenu.Root>
+    <AppContainer>
+      <Header
+        title={siteSettings?.title || "Easter Market"}
+        cartItems={cartItems}
+      />
 
       <Container>
         <PageTitle>{siteSettings?.title}</PageTitle>
         <PageSubtitle>{siteSettings?.subtitle}</PageSubtitle>
 
-        <section>
-          <h2
-            style={{
-              fontSize: "1.5rem",
-              marginBottom: "1rem",
-              color: "#2A4365",
-            }}
-          >
-            Featured Products
-          </h2>
-          <ProductGrid>
-            {highlightedProducts.map((product) => (
-              <ProductCard key={product.id}>
-                <ProductImage src={product.image_url} alt={product.name} />
-                <ProductTitle>{product.name}</ProductTitle>
-                <ProductDescription>{product.description}</ProductDescription>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
-                  <Button onClick={() => addToCart(product)}>
-                    Add to Cart
-                  </Button>
-                </div>
-              </ProductCard>
-            ))}
-          </ProductGrid>
-        </section>
+        <ProductList
+          title="Featured Products"
+          products={highlightedProducts}
+          onAddToCart={addToCart}
+        />
 
-        <section>
-          <h2
-            style={{
-              fontSize: "1.5rem",
-              margin: "2rem 0 1rem",
-              color: "#2A4365",
-            }}
-          >
-            All Products
-          </h2>
-          <ProductGrid>
-            {products.map((product) => (
-              <ProductCard key={product.id}>
-                <ProductImage src={product.image_url} alt={product.name} />
-                <ProductTitle>{product.name}</ProductTitle>
-                <ProductDescription>{product.description}</ProductDescription>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
-                  <Button onClick={() => addToCart(product)}>
-                    Add to Cart
-                  </Button>
-                </div>
-              </ProductCard>
-            ))}
-          </ProductGrid>
-        </section>
+        <ProductList
+          title="All Products"
+          products={products}
+          onAddToCart={addToCart}
+        />
       </Container>
 
-      {showWhatsAppBalloon && (
-        <WhatsAppBalloon>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <p>Não achou o que queria? Fale comigo no whatsapp!</p>
-            <button
-              onClick={() => setShowWhatsAppBalloon(false)}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                fontSize: "1.2rem",
-              }}
-            >
-              ×
-            </button>
-          </div>
-        </WhatsAppBalloon>
-      )}
-
-      <WhatsAppButton onClick={handleWhatsAppClick}>💬 WhatsApp</WhatsAppButton>
-    </div>
+      <WhatsAppContact
+        whatsappNumber={siteSettings?.whatsapp_number || 0}
+        showBalloon={showWhatsAppBalloon}
+        onBalloonClose={() => setShowWhatsAppBalloon(false)}
+        onWhatsAppClick={handleWhatsAppClick}
+      />
+    </AppContainer>
   );
 }
 
