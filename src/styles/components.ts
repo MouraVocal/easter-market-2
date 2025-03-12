@@ -53,6 +53,7 @@ export const WhatsAppButton = styled(Button)`
   display: flex;
   align-items: center;
   gap: ${theme.space.sm};
+  z-index: 1000;
   
   &:hover {
     background: #128C7E;
